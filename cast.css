@@ -1,0 +1,229 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #fff;
+    line-height: 1.6;
+    display: flex;
+    background: url("purple.jpeg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    /* background-size: cover; */
+    background-size: 100% 100%;
+    cursor: url('dagger.cur'), auto;
+    transition: background 0.6s ease-in-out;
+}
+
+/* Sidebar Styling */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    width: 150px;
+    padding: 20px 10px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.5s ease-in-out;
+    box-shadow: 0 0 8px rgba(120, 76, 201, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+header img {
+    height: 60px;
+    width: 130px;
+    margin-bottom: 20px;
+}
+
+header nav {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+header nav a {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    text-decoration:none;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+}
+
+header nav a.active {
+    color: rgba(120, 76, 201, 0.6);
+    width: 150px;
+    transition: 0.5s;
+    text-shadow: 0 0 10px rgba(120, 76, 201, 0.6);
+
+}
+
+header nav a:hover {
+    transition: 0.5s;
+    color: rgba(120, 76, 201, 0.6);
+    width: 150px;
+    transform: translateX(14px);
+    text-shadow: 0 0 10px rgba(120, 76, 201, 0.6);
+}
+
+/* Main Section Styling */
+main {
+    margin-left: 170px; /* Adjusted for sidebar width */
+    width: calc(90% - 110px);
+    padding: 50px 15px;
+    text-align: center;
+    /* padding-top: 30px; */
+}
+
+main h1 {
+    font-size: 35px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(120, 76, 201, 0.914);
+}
+
+main p {
+    font-size: 1.2em;
+    margin: 20px auto;
+    max-width: 800px; /* To limit paragraph width for readability */
+    text-align: center;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4,1fr); /* 4 columns */
+    gap: 20px; /* Space between cards */
+    margin-top: 30px;
+}
+
+.card {
+    /* background-color: #32224c; Semi-transparent white */
+    width:90%;
+    height: 80%;
+    color: #fff;
+    padding: 15px 9px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.393);
+    transition: transform 0.5s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(50, 34, 76, 0.263);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+
+}
+
+.card  img{
+    width: 100%; /* Ensures image fits the card width */
+    height: 80%; /* Maintains aspect ratio */
+    object-fit: cover;
+    border-radius: 7px;
+    margin-bottom: 10px;
+    display: block;
+    
+    
+    
+}
+
+
+.card:hover img + .layer {
+    height: 100%; /* Show layer only when the image is hovered */
+    background: radial-gradient(circle, rgba(50, 34, 76, 0.5) 20%, rgba(30, 20, 50, 0.8) 90%);
+    transition: height 1s ease-in-out;
+}
+
+.card  img:hover + .layer {
+   height: 0%;
+}
+.layer{
+    width: 100%;
+    height: 0;
+    /* background: linear-gradient(rgba(0,0,0,0.6), #2a2929ed); */
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    font-size: 15px;
+}
+.layer h3{
+    font-weight: 200%;
+    margin-bottom: 20px;
+}
+
+
+.card p {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.396);
+    transition: 0.5s;
+    background: rgba(50, 34, 76, 0.408);
+    backdrop-filter: blur(55px);
+}
+
+/* Hamburger Menu */
+.menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 10%;
+    background: rgba(120, 76, 201, 0.8);
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    font-size: 1.2em;
+    cursor: pointer;
+    z-index: 1000;
+    border-radius: 5px;
+    transition: left 0.5s ease-in-out;
+}
+.menu-toggle:hover {
+    background: transparent;
+    border: 2px solid rgba(120, 76, 201, 0.8);
+    color: rgba(120, 76, 201, 0.8);
+    transition: 0.5s;
+}
+
+.collapsed header {
+    transform: translateX(-100%);
+    transition: left 0.5s ease-in-out;
+}
+
+.collapsed main {
+    margin-left: 0;
+    width: 100%;
+    transition: margin-left 0.5s ease-in-out;
+}
+.collapsed .menu-toggle {
+    left: 10px;
+}
+
+body.collapsed .menu-toggle {
+    background: transparent; 
+    border: 2px solid rgba(120, 76, 201, 0.8);
+    color: rgba(120, 76, 201, 0.8);
+    box-shadow: 0 0 10px rgba(120, 76, 201, 0.6);
+    transition: 0.5s;
+}

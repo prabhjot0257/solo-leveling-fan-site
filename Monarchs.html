@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monarchs</title>
+    <link rel="stylesheet" href="monarchs.css">
+</head>
+<body>
+    <button class="menu-toggle">☰</button>
+    
+    <header>
+        <a href="#"><img src="https://lunar-merch.b-cdn.net/sololevelingstore.com/uploads/T-shirt%20Collection%20(92).png2.png" alt="Website Logo"></a>
+        <nav>
+            <a href="solo.html" >Movie</a>
+            <a href="https://www.imdb.com/title/tt21209876/">Reviews</a>
+            <a href="about.html">About</a>
+            <a href="cast.html">Cast</a>
+            <a href="Monarchs.html " class="active">Monarchs</a>
+            <a href="Shadows.html">Shadows</a>
+            <a href="game.html">Mini-game</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Monarchs</h1>
+        <div class="monarchs-wrapper">
+            <button class="nav-button nav-left">&#9664;</button>
+
+            <div class="monarchs-container">
+                <div class="monarch-card card-1">
+                    <img src="https://i.pinimg.com/736x/7a/cd/c0/7acdc0dbb2052a7a763dcb82abc2fa85.jpg" alt="Monarch 1">
+                    Monarch 1
+                    <div class="card-text">Monarch of Destruction</div>
+                    <div class="innercard-text">Antares</div>
+                </div>
+                <div class="monarch-card card-2">
+                    <img src="https://i.pinimg.com/736x/36/02/1d/36021d4adb3ad3d136e3b417763bf551.jpg" alt="Monarch 2">
+                    Ashborn
+                    <div class="card-text">Monarch of Shadows</div>
+                    <div class="innercard-text">Ashborn</div>
+                </div>
+                <div class="monarch-card card-3">
+                    <img src="https://i.pinimg.com/736x/40/1c/96/401c962fa594cefeb22e2985fdc09d79.jpg" alt="Monarch 3">
+                    Monarch 2
+                    <div class="card-text">Ashborn vessel</div>
+                    <div class="innercard-text">Sung jinwoo</div>
+                </div>
+                <div class="monarch-card card-4">
+                    <img src="https://i.pinimg.com/736x/bb/17/eb/bb17eb7aacb120c74eab90823c6fa368.jpg" alt="Monarch 4">
+                    Monarch 3
+                    <div class="card-text">Monarch of White Flames</div>
+                    <div class="innercard-text">Baran</div>
+                </div>
+                <div class="monarch-card card-5">
+                    <img src="https://i.pinimg.com/736x/fd/7e/98/fd7e982879213045dc532bd49cff20ac.jpg" alt="Monarch 5">
+                    Monarch 4
+                    <div class="card-text">Monarch of Frost</div>
+                    <div class="innercard-text">Sillad</div>
+                </div>
+                
+                <div class="monarch-card card-6">
+                    <img src="monarch-plague.jpg" alt="Monarch 6">
+                    <div class="card-text">Monarch of Plagues</div>
+                    <div class="innercard-text">Querehsha</div>
+                </div>
+                <div class="monarch-card card-7 ">
+                    <img src="https://i.pinimg.com/736x/54/32/22/5432223541f50576a61d67369bda7904.jpg" alt="Monarch 7">
+                    Monarch 6
+                    <div class="card-text">Monarch of Beasts</div>
+                    <div class="innercard-text">Rakan</div>
+                </div>
+                <div class="monarch-card card-8">
+                    <img src="https://i.pinimg.com/736x/12/95/c4/1295c455e86dbfbbb4c39de983552b56.jpg" alt="Monarch 8">
+                    Monarch 7
+                    <div class="card-text">Monarch of the Beginning</div>
+                    <div class="innercard-text">Legia</div>
+                </div>
+                <div class="monarch-card card-9">
+                    <img src="https://i.pinimg.com/736x/d7/75/8a/d7758aa26a8c5d4bb8fc1c36dea53e9a.jpg" alt="Monarch 9">
+                    Monarch 8
+                    <div class="card-text">Monarch of Iron</div>
+                    <div class="innercard-text">Tarnak</div>
+                </div>
+                <div class="monarch-card card-10">
+                    <img src="https://i.pinimg.com/736x/cf/d3/36/cfd3368e2d9514d3db323f72c80344dd.jpg" alt="Monarch 10">
+                    Monarch 9
+                    <div class="card-text">Monarch of Transfiguration</div>
+                    <div class="innercard-text">Yogumunt</div>
+                </div>
+            </div>
+
+
+            <button class="nav-button nav-right">&#9654;</button>
+        </div>
+    </main>
+
+    <script>
+        const cards = document.querySelectorAll('.monarch-card');
+        const container = document.querySelector('.monarchs-container');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const body = document.body;
+        let currentIndex = 0;
+
+        const updateActiveCard = () => {
+            cards.forEach((card, index) => {
+                card.classList.toggle('active', index === currentIndex);
+            });
+
+            const offset = cards[currentIndex].offsetLeft - (container.offsetWidth - cards[currentIndex].offsetWidth) / 2;
+            container.scrollTo({ left: offset, behavior: 'smooth' });
+
+            body.classList.toggle('alt-bg-1', currentIndex % 2 === 0);
+            body.classList.toggle('alt-bg-2', currentIndex % 2 !== 0);
+        };
+
+        document.querySelector('.nav-left').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateActiveCard();
+        });
+
+        document.querySelector('.nav-right').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateActiveCard();
+        });
+
+        window.addEventListener('load', updateActiveCard);
+
+         // Toggle sidebar visibility
+         menuToggle.addEventListener('click', () => {
+            body.classList.toggle('collapsed');
+        });
+    </script>
+</body>
+</html>

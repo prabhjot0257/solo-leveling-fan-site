@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+
+    <button class="menu-toggle">☰</button>
+    <button id="monarch-domain">Monarch Domain</button> <!-- Added button -->
+
+    <header>
+        <a href="#"><img src="https://lunar-merch.b-cdn.net/sololevelingstore.com/uploads/T-shirt%20Collection%20(92).png2.png" alt="Website Logo"></a>
+        <nav>
+            <a href="solo.html">Movie</a>
+            <a href="https://www.imdb.com/title/tt21209876/">Reviews</a>
+            <a href="about.html">About</a>
+            <a href="cast.html">Cast</a>
+            <a href="Monarchs.html">Monarchs</a>
+            <a href="Shadows.html">Shadows</a>
+            <a href="game.html" class="active">Mini-game</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Rock Paper Scissors</h1>
+        
+        <div class="game-container">
+            <div class="opponent">
+                <h2 id="opponent-name">Opponent</h2>
+                <img id="opponent-img" src="igris1.png" width="150">
+                <div class="choice-display">
+                    <img id="opponent-choice" src="" width="80" style="display: none;">
+                </div>
+            </div>
+
+            <img src="vs-removebg-preview.png" class="vs-image" alt="VS">
+
+            <div class="player">
+                <h2>You</h2>
+                <img src="player1.png" id="player-img" width="150">
+                <div class="choice-display">
+                    <img id="player-choice" src="" width="80" style="display: none;">
+                </div>
+            </div>
+        </div>
+
+        <div class="choice-container">
+            <div class="choices">
+                <button onclick="choose('rock')"><img id="rock-btn" src="rock.jpeg" alt="Rock" width="70"></button>
+                <button onclick="choose('paper')"><img id="paper-btn" src="paper.jpeg" alt="Paper" width="70"></button>
+                <button onclick="choose('scissor')"><img id="scissor-btn" src="scissor.jpeg" alt="Scissor" width="70"></button>
+            </div>
+            <button id="select-btn" onclick="startGame()" disabled>Select</button>
+        </div>
+
+        <div class="countdown" id="countdown"></div>
+        <div class="result" id="result-text"></div>
+
+        <div class="scoreboard">
+            <div class="scoreboard-title">Scoreboard</div>
+            <div class="scoreboard-row">
+                <div class="score-label">Wins:</div>
+                <div class="score-value" id="wins">0</div>
+            </div>
+            <div class="scoreboard-row">
+                <div class="score-label">Losses:</div>
+                <div class="score-value" id="losses">0</div>
+            </div>
+            <div class="scoreboard-row">
+                <div class="score-label">Draws:</div>
+                <div class="score-value" id="draws">0</div>
+            </div>
+            <div class="scoreboard-row">
+                <div class="score-label">Win Streak:</div>
+                <div class="score-value" id="win-streak">0</div>
+            </div>
+        </div>
+        
+        <audio id="win-sound" src="win1.mp3"></audio>
+        <audio id="lose-sound" src="lose1.mp3"></audio>
+        <audio id="draw-sound" src="draw1.mp3"></audio>
+        
+        <!-- Added Countdown Sound -->
+        <audio id="countdown-sound" src="countdown.mp3"></audio>
+
+        <audio id="bass-drop" src="bass-drop.mp3"></audio>
+        <audio id="bass-up" src="bass-up.mp3"></audio>
+
+
+    </main>
+
+    <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const body = document.body;
+        const monarchButton = document.getElementById("monarch-domain");
+        const bassDrop = document.getElementById("bass-drop");
+        const bassUp = document.getElementById("bass-up");
+
+        let playerChoice = "";
+        let wins = 0, losses = 0, draws = 0, winStreak = 0;
+        let currentOpponentIndex = 0;
+
+        const opponents = [
+            { name: "Igris", img: "igris1.png" },
+            { name: "Beru", img: "beru.png" },
+            { name: "Iron", img: "iron.png" },
+            { name: "Tank", img: "tank.png" },
+            { name: "Tusk", img: "tusk.png" }
+        ];
+        
+        function choose(choice) {
+            playerChoice = choice;
+            document.getElementById("player-choice").src = choice + ".jpeg";
+            document.getElementById("player-choice").style.display = "block";
+            document.getElementById("select-btn").disabled = false;
+
+            document.querySelectorAll(".choices img").forEach(img => {
+                img.classList.remove("selected");
+            });
+
+            document.getElementById(choice + "-btn").classList.add("selected");
+        }
+
+        function startGame() {
+    if (!playerChoice) return;
+    document.getElementById("select-btn").disabled = true;
+    
+    let countdown = 3;
+    document.getElementById("countdown").textContent = countdown;
+
+    let countdownSound = document.getElementById("countdown-sound");
+    countdownSound.currentTime = 0;
+
+    // Play sound only if the user has interacted with the page
+    countdownSound.play().catch(error => console.log("Autoplay blocked:", error));
+
+    let interval = setInterval(() => {
+        countdown--;
+        document.getElementById("countdown").textContent = countdown;
+        
+        if (countdown === 0) {
+            clearInterval(interval);
+            document.getElementById("countdown").textContent = "";
+            revealOpponent();
+        }
+    }, 1000);
+}
+
+
+        function revealOpponent() {
+            let choices = ["rock", "paper", "scissor"];
+            let opponentChoice = choices[Math.floor(Math.random() * 3)];
+
+            document.getElementById("opponent-choice").src = opponentChoice + ".jpeg";
+            document.getElementById("opponent-choice").style.display = "block";
+
+            let result = getResult(playerChoice, opponentChoice);
+            document.getElementById("result-text").style.display = "block"; 
+            document.getElementById("result-text").textContent = result;
+
+            if (result === "You Win!") {
+                wins++;
+                winStreak++;
+                document.getElementById("win-sound").play();
+            } else if (result === "You Lose!") {
+                losses++;
+                winStreak = 0;
+                document.getElementById("lose-sound").play();
+            } else if (result === "It's a Draw!") {
+                draws++;
+                document.getElementById("draw-sound").play();
+            }
+
+            setTimeout(() => {
+                document.getElementById("player-choice").style.display = "none";
+                document.getElementById("opponent-choice").style.display = "none";
+                document.getElementById("result-text").style.display = "none";
+               
+                if (result === "You Lose!") {
+                    changeOpponent();
+                }
+            }, 3000);
+
+            updateScoreboard();
+        }
+
+        function getResult(player, opponent) {
+            if (player === opponent) return "It's a Draw!";
+            if ((player === "rock" && opponent === "scissor") ||
+                (player === "scissor" && opponent === "paper") ||
+                (player === "paper" && opponent === "rock")) {
+                return "You Win!";
+            }
+            return "You Lose!";
+        }
+
+        function changeOpponent() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * opponents.length);
+            } while (newIndex === currentOpponentIndex);
+    
+            currentOpponentIndex = newIndex;
+            document.getElementById("opponent-name").textContent = opponents[currentOpponentIndex].name;
+            document.getElementById("opponent-img").src = opponents[currentOpponentIndex].img;
+        }
+
+        function updateScoreboard() {
+            document.getElementById("wins").textContent = wins;
+            document.getElementById("losses").textContent = losses;
+            document.getElementById("draws").textContent = draws;
+            document.getElementById("win-streak").textContent = winStreak;
+        }
+
+        menuToggle.addEventListener('click', () => {
+            body.classList.toggle('collapsed');
+        });
+
+
+
+       // Function to enable dark mode without playing sound on page load
+    function enableDarkMode(playSound = true) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "enabled");
+        if (playSound) bassDrop.play(); // Play sound only if triggered by button click
+    }
+
+    // Function to disable dark mode without playing sound on page load
+    function disableDarkMode(playSound = true) {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "disabled");
+        if (playSound) bassUp.play(); // Play sound only if triggered by button click
+    }
+
+    // Check localStorage and apply saved mode (but don't play sound on load)
+    if (localStorage.getItem("darkMode") === "enabled") {
+        enableDarkMode(false); // Apply dark mode but mute sound on load
+    }
+
+    // Toggle dark mode with sound only when button is clicked
+    monarchButton.addEventListener("click", () => {
+        if (document.body.classList.contains("dark-mode")) {
+            disableDarkMode(true); // Light mode with bass up sound
+        } else {
+            enableDarkMode(true); // Dark mode with bass drop sound
+        }
+    });
+
+    </script>
+
+</body>
+</html>
