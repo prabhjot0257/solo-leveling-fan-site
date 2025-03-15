@@ -9,6 +9,7 @@
 <body>
     <button class="menu-toggle">☰</button>
     
+    
     <header>
         <a href="#"><img src="https://lunar-merch.b-cdn.net/sololevelingstore.com/uploads/T-shirt%20Collection%20(92).png2.png" alt="Website Logo"></a>
         <nav>
@@ -162,53 +163,88 @@
         </div>
     </main>
 
+    <button id="monarch-domain">Monarch Domain</button>
+    <audio id="bass-drop" src="bass-drop.mp3"></audio>
+    <audio id="bass-up" src="bass-up.mp3"></audio>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const cards = document.querySelectorAll(".monarch-card");
             const container = document.querySelector(".monarchs-container");
             const menuToggle = document.querySelector(".menu-toggle");
             const body = document.body;
+            const monarchButton = document.getElementById("monarch-domain");
+            const bassDrop = document.getElementById("bass-drop");
+            const bassUp = document.getElementById("bass-up");
             let currentIndex = 0;
-
+    
+            // Function to enable dark mode
+            function enableDarkMode(playSound = true) {
+                document.body.classList.add("dark-mode");
+                localStorage.setItem("darkMode", "enabled");
+                if (playSound) bassDrop.play(); // Play bass drop sound only on button click
+            }
+    
+            // Function to disable dark mode
+            function disableDarkMode(playSound = true) {
+                document.body.classList.remove("dark-mode");
+                localStorage.setItem("darkMode", "disabled");
+                if (playSound) bassUp.play(); // Play bass up sound only on button click
+            }
+    
+            // Check localStorage and apply saved mode (without sound on page load)
+            if (localStorage.getItem("darkMode") === "enabled") {
+                enableDarkMode(false);
+            }
+    
+            // Toggle dark mode when button is clicked
+            monarchButton.addEventListener("click", () => {
+                if (document.body.classList.contains("dark-mode")) {
+                    disableDarkMode(true);
+                } else {
+                    enableDarkMode(true);
+                }
+            });
+    
             const updateActiveCard = () => {
                 cards.forEach((card, index) => {
                     const cardInner = card.querySelector(".card-inner");
-
+    
                     if (index === currentIndex) {
                         card.classList.add("active");
-                        cardInner.classList.add("flip"); // Flip only active card
+                        cardInner.classList.add("flip");
                     } else {
                         card.classList.remove("active");
-                        cardInner.classList.remove("flip"); // Remove flip from inactive cards
+                        cardInner.classList.remove("flip");
                     }
                 });
-
-                // Scroll to center the active card
+    
                 const offset = cards[currentIndex].offsetLeft - (container.offsetWidth - cards[currentIndex].offsetWidth) / 2;
                 container.scrollTo({ left: offset, behavior: "smooth" });
-
-                // Alternate background color
+    
                 body.classList.toggle("alt-bg-1", currentIndex % 2 === 0);
                 body.classList.toggle("alt-bg-2", currentIndex % 2 !== 0);
             };
-
+    
             document.querySelector(".nav-left").addEventListener("click", () => {
                 currentIndex = (currentIndex - 1 + cards.length) % cards.length;
                 updateActiveCard();
             });
-
+    
             document.querySelector(".nav-right").addEventListener("click", () => {
                 currentIndex = (currentIndex + 1) % cards.length;
                 updateActiveCard();
             });
-
+    
             window.addEventListener("load", updateActiveCard);
-
+    
             // Toggle sidebar visibility
             menuToggle.addEventListener("click", () => {
                 body.classList.toggle("collapsed");
             });
         });
     </script>
+    
 </body>
 </html>

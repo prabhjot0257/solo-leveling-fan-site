@@ -29,7 +29,7 @@
             <a href="https://www.google.com/search?q=who+is+sung+jinwoo+about+&sca_esv=b6aca1f361c72db0&sxsrf=AHTn8zrTAUSXQqRgTpMnlIASMOJFJVYNKQ%3A1738437755825&ei=e3SeZ7GTMv3T1e8P8fmBgAY&ved=0ahUKEwjxvJmnmaOLAxX9afUHHfF8AGAQ4dUDCBE&uact=5&oq=who+is+sung+jinwoo+about+&gs_lp=Egxnd3Mtd2l6LXNlcnAiGXdobyBpcyBzdW5nIGppbndvbyBhYm91dCAyBBAjGCcyBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMggQABgWGAoYHjILEAAYgAQYhgMYigUyCxAAGIAEGIYDGIoFMgUQABjvBUjpG1DPBFiDFnABeAGQAQCYAbMBoAGZBqoBAzAuNbgBA8gBAPgBAZgCBqAC7AbCAgoQABiwAxjWBBhHwgIIEAAYgAQYogSYAwCIBgGQBgKSBwMxLjWgB9Aw&sclient=gws-wiz-serp" target="_blank" class="card">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvhmQuVx235_YgiZBbG7BPiA22a7EjlV4qUg&s" alt="Sung Jinwoo">
                 <div class="layer">
-                    <h3>Korean<br>Very powerful, can't be ranked.</h3>
+                    <h3>Korean<br>Rank Error!</h3>
                 </div>
                 <p>Sung Jinwoo</p>
             </a>
@@ -122,17 +122,54 @@
                 <p>Lennart Niermann</p>
             </a>
 
+            <button id="monarch-domain">Monarch Domain</button>
+            <audio id="bass-drop" src="bass-drop.mp3"></audio>
+            <audio id="bass-up" src="bass-up.mp3"></audio>
+
         </section>
     </main>
 
     <script>
          const menuToggle = document.querySelector('.menu-toggle');
          const body = document.body;
+         const monarchButton = document.getElementById("monarch-domain");
+         const bassDrop = document.getElementById("bass-drop");
+         const bassUp = document.getElementById("bass-up");
 
           // Toggle sidebar visibility
         menuToggle.addEventListener('click', () => {
             body.classList.toggle('collapsed');
         });
+
+        // Function to enable dark mode
+        function enableDarkMode(playSound = true) {
+                document.body.classList.add("dark-mode");
+                localStorage.setItem("darkMode", "enabled");
+                if (playSound) bassDrop.play(); // Play bass drop sound only on button click
+            }
+    
+            // Function to disable dark mode
+            function disableDarkMode(playSound = true) {
+                document.body.classList.remove("dark-mode");
+                localStorage.setItem("darkMode", "disabled");
+                if (playSound) bassUp.play(); // Play bass up sound only on button click
+            }
+    
+            // Check localStorage and apply saved mode (without sound on page load)
+            if (localStorage.getItem("darkMode") === "enabled") {
+                enableDarkMode(false);
+            }
+    
+            // Toggle dark mode when button is clicked
+            monarchButton.addEventListener("click", () => {
+                if (document.body.classList.contains("dark-mode")) {
+                    disableDarkMode(true);
+                } else {
+                    enableDarkMode(true);
+                }
+            });
+
+
     </script>
 </body>
 </html>

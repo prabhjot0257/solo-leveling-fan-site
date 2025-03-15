@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="about.css">
 </head>
 <body>
-    <button class="menu-toggle">☰</button>
     <header>
         <a href="solo.html">
             <img src="https://lunar-merch.b-cdn.net/sololevelingstore.com/uploads/T-shirt%20Collection%20(92).png2.png" alt="Website Logo">
@@ -24,6 +23,7 @@
     </header>
 
     <main>
+        
         <section>
             <h1>About</h1>
             <div class="scroll-container">
@@ -100,17 +100,53 @@
                     </p>
                 </div>
             </div>
+
+            <button id="monarch-domain">Monarch Domain</button>
+            <audio id="bass-drop" src="bass-drop.mp3"></audio>
+            <audio id="bass-up" src="bass-up.mp3"></audio>
+
         </section>
     </main>
 
     <script>
-          const menuToggle = document.querySelector('.menu-toggle');
+         
           const body = document.body;
+          const monarchButton = document.getElementById("monarch-domain");
+         const bassDrop = document.getElementById("bass-drop");
+         const bassUp = document.getElementById("bass-up");
 
-        // Toggle sidebar visibility
-        menuToggle.addEventListener('click', () => {
-            body.classList.toggle('collapsed');
-        });
+       
+
+         // Function to enable dark mode
+         function enableDarkMode(playSound = true) {
+                document.body.classList.add("dark-mode");
+                localStorage.setItem("darkMode", "enabled");
+                if (playSound) bassDrop.play(); // Play bass drop sound only on button click
+            }
+    
+            // Function to disable dark mode
+            function disableDarkMode(playSound = true) {
+                document.body.classList.remove("dark-mode");
+                localStorage.setItem("darkMode", "disabled");
+                if (playSound) bassUp.play(); // Play bass up sound only on button click
+            }
+    
+            // Check localStorage and apply saved mode (without sound on page load)
+            if (localStorage.getItem("darkMode") === "enabled") {
+                enableDarkMode(false);
+            }
+    
+            // Toggle dark mode when button is clicked
+            monarchButton.addEventListener("click", () => {
+                if (document.body.classList.contains("dark-mode")) {
+                    disableDarkMode(true);
+                } else {
+                    enableDarkMode(true);
+                }
+            });
+
+
+
     </script>
 </body>
 </html>

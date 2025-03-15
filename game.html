@@ -89,6 +89,12 @@
         <audio id="bass-drop" src="bass-drop.mp3"></audio>
         <audio id="bass-up" src="bass-up.mp3"></audio>
 
+        <div class="hat-trick" id="hat-trick">Hat-trick!</div>
+        <audio id="hat-trick-sound" src="hat-trick.mp3"></audio>
+        <audio id="firework-sound" src="celebration.mp3"></audio>
+
+        <!-- Removed Test Hat-Trick Sound button -->
+
 
     </main>
 
@@ -125,67 +131,93 @@
         }
 
         function startGame() {
-    if (!playerChoice) return;
-    document.getElementById("select-btn").disabled = true;
-    
-    let countdown = 3;
-    document.getElementById("countdown").textContent = countdown;
+            if (!playerChoice) return;
+            document.getElementById("select-btn").disabled = true;
+            
+            let countdown = 3;
+            document.getElementById("countdown").textContent = countdown;
 
-    let countdownSound = document.getElementById("countdown-sound");
-    countdownSound.currentTime = 0;
+            let countdownSound = document.getElementById("countdown-sound");
+            countdownSound.currentTime = 0;
 
-    // Play sound only if the user has interacted with the page
-    countdownSound.play().catch(error => console.log("Autoplay blocked:", error));
+            // Play sound only if the user has interacted with the page
+            countdownSound.play().catch(error => console.log("Autoplay blocked:", error));
 
-    let interval = setInterval(() => {
-        countdown--;
-        document.getElementById("countdown").textContent = countdown;
-        
-        if (countdown === 0) {
-            clearInterval(interval);
-            document.getElementById("countdown").textContent = "";
-            revealOpponent();
+            let interval = setInterval(() => {
+                countdown--;
+                document.getElementById("countdown").textContent = countdown;
+                
+                if (countdown === 0) {
+                    clearInterval(interval);
+                    document.getElementById("countdown").textContent = "";
+                    revealOpponent();
+                }
+            }, 1000);
         }
-    }, 1000);
+
+        function revealOpponent() {
+    let choices = ["rock", "paper", "scissor"];
+    let opponentChoice;
+
+    let winChance = Math.random(); // Generate a random number between 0 and 1
+
+    if (winChance < 0.6) {
+        // 60% chance for player to win
+        if (playerChoice === "rock") opponentChoice = "scissor";
+        else if (playerChoice === "paper") opponentChoice = "rock";
+        else opponentChoice = "paper";
+    } else if (winChance < 0.9) {
+        // 30% chance for player to lose
+        if (playerChoice === "rock") opponentChoice = "paper";
+        else if (playerChoice === "paper") opponentChoice = "scissor";
+        else opponentChoice = "rock";
+    } else {
+        // 10% chance for draw
+        opponentChoice = playerChoice;
+    }
+
+    document.getElementById("opponent-choice").src = opponentChoice + ".jpeg";
+    document.getElementById("opponent-choice").style.display = "block";
+
+    let result = getResult(playerChoice, opponentChoice);
+    document.getElementById("result-text").style.display = "block";
+    document.getElementById("result-text").textContent = result;
+
+    if (result === "You Win!") {
+        wins++;
+        winStreak++;
+
+        if (winStreak === 3) {
+            document.getElementById("hat-trick-sound").play();
+            document.getElementById("result-text").textContent = "Hat-trick!";
+        } else {
+            document.getElementById("win-sound").play();
+        }
+
+        celebrateWinStreak();
+    } else if (result === "You Lose!") {
+        losses++;
+        winStreak = 0;
+        document.getElementById("lose-sound").play();
+    } else if (result === "It's a Draw!") {
+        draws++;
+        document.getElementById("draw-sound").play();
+    }
+
+    setTimeout(() => {
+        document.getElementById("player-choice").style.display = "none";
+        document.getElementById("opponent-choice").style.display = "none";
+        document.getElementById("result-text").style.display = "none";
+
+        if (result === "You Lose!") {
+            changeOpponent();
+        }
+    }, 3000);
+
+    updateScoreboard();
 }
 
 
-        function revealOpponent() {
-            let choices = ["rock", "paper", "scissor"];
-            let opponentChoice = choices[Math.floor(Math.random() * 3)];
-
-            document.getElementById("opponent-choice").src = opponentChoice + ".jpeg";
-            document.getElementById("opponent-choice").style.display = "block";
-
-            let result = getResult(playerChoice, opponentChoice);
-            document.getElementById("result-text").style.display = "block"; 
-            document.getElementById("result-text").textContent = result;
-
-            if (result === "You Win!") {
-                wins++;
-                winStreak++;
-                document.getElementById("win-sound").play();
-            } else if (result === "You Lose!") {
-                losses++;
-                winStreak = 0;
-                document.getElementById("lose-sound").play();
-            } else if (result === "It's a Draw!") {
-                draws++;
-                document.getElementById("draw-sound").play();
-            }
-
-            setTimeout(() => {
-                document.getElementById("player-choice").style.display = "none";
-                document.getElementById("opponent-choice").style.display = "none";
-                document.getElementById("result-text").style.display = "none";
-               
-                if (result === "You Lose!") {
-                    changeOpponent();
-                }
-            }, 3000);
-
-            updateScoreboard();
-        }
 
         function getResult(player, opponent) {
             if (player === opponent) return "It's a Draw!";
@@ -219,35 +251,78 @@
             body.classList.toggle('collapsed');
         });
 
-
-
-       // Function to enable dark mode without playing sound on page load
-    function enableDarkMode(playSound = true) {
-        document.body.classList.add("dark-mode");
-        localStorage.setItem("darkMode", "enabled");
-        if (playSound) bassDrop.play(); // Play sound only if triggered by button click
-    }
-
-    // Function to disable dark mode without playing sound on page load
-    function disableDarkMode(playSound = true) {
-        document.body.classList.remove("dark-mode");
-        localStorage.setItem("darkMode", "disabled");
-        if (playSound) bassUp.play(); // Play sound only if triggered by button click
-    }
-
-    // Check localStorage and apply saved mode (but don't play sound on load)
-    if (localStorage.getItem("darkMode") === "enabled") {
-        enableDarkMode(false); // Apply dark mode but mute sound on load
-    }
-
-    // Toggle dark mode with sound only when button is clicked
-    monarchButton.addEventListener("click", () => {
-        if (document.body.classList.contains("dark-mode")) {
-            disableDarkMode(true); // Light mode with bass up sound
-        } else {
-            enableDarkMode(true); // Dark mode with bass drop sound
+        // Function to enable dark mode without playing sound on page load
+        function enableDarkMode(playSound = true) {
+            document.body.classList.add("dark-mode");
+            localStorage.setItem("darkMode", "enabled");
+            if (playSound) bassDrop.play(); // Play sound only if triggered by button click
         }
-    });
+
+        // Function to disable dark mode without playing sound on page load
+        function disableDarkMode(playSound = true) {
+            document.body.classList.remove("dark-mode");
+            localStorage.setItem("darkMode", "disabled");
+            if (playSound) bassUp.play(); // Play sound only if triggered by button click
+        }
+
+        // Check localStorage and apply saved mode (but don't play sound on load)
+        if (localStorage.getItem("darkMode") === "enabled") {
+            enableDarkMode(false); // Apply dark mode but mute sound on load
+        }
+
+        // Toggle dark mode with sound only when button is clicked
+        monarchButton.addEventListener("click", () => {
+            if (document.body.classList.contains("dark-mode")) {
+                disableDarkMode(true); // Light mode with bass up sound
+            } else {
+                enableDarkMode(true); // Dark mode with bass drop sound
+            }
+        });
+
+        function celebrateWinStreak() {
+            if (winStreak === 3) {
+                // document.getElementById("hat-trick").style.display = "block";
+                document.getElementById("result-text").style.display = "block"; 
+               
+
+
+                let hatTrickSound = document.getElementById("hat-trick-sound");
+                hatTrickSound.play().catch(error => console.log("Error playing hat-trick sound:", error));
+                setTimeout(() => { document.getElementById("hat-trick").style.display = "none"; }, 3000);
+            }
+            if (winStreak === 5 || winStreak === 10) {
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        let firework = document.createElement("div");
+                        firework.classList.add("firework");
+                        firework.style.left = `${Math.random() * 100}%`;
+                        firework.style.backgroundColor = getRandomColor();
+                        document.body.appendChild(firework);
+                        
+                        let skyrocket = document.createElement("div");
+                        skyrocket.classList.add("skyrocket");
+                        skyrocket.style.left = `${Math.random() * 100}%`;
+                        document.body.appendChild(skyrocket);
+                        
+                        document.getElementById("firework-sound").play();
+                        setTimeout(() => {
+                            firework.remove();
+                            skyrocket.remove();
+                        }, 7000);
+                    }, i * 500);
+                }
+            }
+        }
+
+        function getRandomColor() {
+            const colors = ["red", "blue", "yellow", "green", "purple", "orange", "pink"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function testHatTrickSound() {
+            let hatTrickSound = document.getElementById("hat-trick-sound");
+            hatTrickSound.play().catch(error => console.log("Error playing hat-trick sound:", error));
+        }
 
     </script>
 

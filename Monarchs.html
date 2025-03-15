@@ -93,6 +93,11 @@
 
             <button class="nav-button nav-right">&#9654;</button>
         </div>
+
+        <button id="monarch-domain">Monarch Domain</button>
+        <audio id="bass-drop" src="bass-drop.mp3"></audio>
+        <audio id="bass-up" src="bass-up.mp3"></audio>
+
     </main>
 
     <script>
@@ -100,6 +105,9 @@
         const container = document.querySelector('.monarchs-container');
         const menuToggle = document.querySelector('.menu-toggle');
         const body = document.body;
+        const monarchButton = document.getElementById("monarch-domain");
+        const bassDrop = document.getElementById("bass-drop");
+        const bassUp = document.getElementById("bass-up");
         let currentIndex = 0;
 
         const updateActiveCard = () => {
@@ -130,6 +138,35 @@
          menuToggle.addEventListener('click', () => {
             body.classList.toggle('collapsed');
         });
+
+         // Function to enable dark mode
+         function enableDarkMode(playSound = true) {
+                document.body.classList.add("dark-mode");
+                localStorage.setItem("darkMode", "enabled");
+                if (playSound) bassDrop.play(); // Play bass drop sound only on button click
+            }
+    
+            // Function to disable dark mode
+            function disableDarkMode(playSound = true) {
+                document.body.classList.remove("dark-mode");
+                localStorage.setItem("darkMode", "disabled");
+                if (playSound) bassUp.play(); // Play bass up sound only on button click
+            }
+    
+            // Check localStorage and apply saved mode (without sound on page load)
+            if (localStorage.getItem("darkMode") === "enabled") {
+                enableDarkMode(false);
+            }
+    
+            // Toggle dark mode when button is clicked
+            monarchButton.addEventListener("click", () => {
+                if (document.body.classList.contains("dark-mode")) {
+                    disableDarkMode(true);
+                } else {
+                    enableDarkMode(true);
+                }
+            });
+
     </script>
 </body>
 </html>

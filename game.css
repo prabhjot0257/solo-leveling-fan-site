@@ -446,6 +446,57 @@ body.collapsed .menu-toggle {
 }
 
 
+.firework, .skyrocket {
+    position: fixed;
+    bottom: 0;
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+    border-radius: 50%;
+}
+.firework {
+    animation: launch 2s ease-out, explode 5s 2s forwards;
+}
+.firework::before, .firework::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: yellow;
+}
+.firework::before { transform: translate(-15px, -15px); }
+.firework::after { transform: translate(15px, -15px); }
+
+.skyrocket {
+    width: 7px;
+    height: 40px;
+    background-color: rgb(157, 0, 254);
+    animation: skyrocket-launch 2s ease-out forwards;
+}
+@keyframes launch {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-550px); opacity: 1; }
+}
+@keyframes explode {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(5); opacity: 1; }
+    100% { transform: scale(7); opacity: 0; }
+}
+@keyframes skyrocket-launch {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-600px); opacity: 0; }
+}
+
+.hat-trick {
+    font-size: 2rem;
+    color: gold;
+    font-weight: bold;
+    text-align: center;
+    display: none;
+}
+
+
 
 /* Monarch Domain Button */
 #monarch-domain {
@@ -563,4 +614,115 @@ body.collapsed .menu-toggle {
     border: 3px solid rgba(120, 76, 201, 0.6);
     box-shadow: 0 0 10px rgba(120, 76, 201, 0.6);
     transition: background 0.5s ease, color 0.5s ease;
+}
+
+
+
+
+
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    header, .scoreboard, .menu-toggle {
+        display: none; /* Hide header, scoreboard, and hamburger */
+    }
+    
+    main {
+        margin-left: 0;
+        width: 100%;
+        padding: 10px;
+    }
+    
+    main h1 {
+        font-size: 1.2em; /* Decrease heading size */
+        margin-top: 10px;
+    }
+    
+    #monarch-domain {
+        display: block;
+        margin: 10px auto;
+        font-size: 0.8em;
+        padding: 6px 9px;
+        text-align: center;
+    }
+    
+    .game-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        text-align: center;
+        position: relative;
+    }
+    
+    .opponent, .player {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* Reduce gap slightly */
+    }
+    
+    .opponent img, .player img {
+        width: 80px; /* Decrease image size */
+    }
+    
+    .vs-image {
+        width: 50px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .choice-display {
+        margin-top: 5px; /* Reduce space */
+        width: 50px; /* Decrease choice size */
+    }
+    
+    #opponent-choice, #player-choice {
+        width: 50px; /* Smaller choice images */
+        height: auto;
+    }
+    
+    .result-container {
+        position: relative;
+        text-align: center;
+        margin-top: 15px;
+    }
+    
+    .countdown, .result {
+        font-size: 2em;
+        font-weight: bold;
+        color: gold;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+    
+    .choice-container {
+        position: fixed;
+        bottom: 180px; /* Move choices container upward */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        text-align: center;
+    }
+    
+    .choices {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px; /* Reduce gap */
+    }
+    
+    .choices img {
+        width: 38px; /* Reduce button size */
+    }
+    
+    #select-btn {
+        display: block;
+        margin: 4px auto; /* Reduce gap */
+        padding: 3px 7px;
+        font-size: 0.85em;
+    }
 }

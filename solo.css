@@ -12,7 +12,7 @@
             color: #fff;
             line-height: 1.6;
             display: flex;
-            background: url("purple.jpeg");
+            background: url("blue.jpeg");
             background-attachment: fixed;
             background-repeat: no-repeat;
          /* background-size: cover; */
@@ -35,7 +35,7 @@
             top: 0;
             left: 0;
             transition: transform 0.5s ease-in-out;
-            box-shadow: 0 0 8px rgba(120, 76, 201, 0.6);
+            box-shadow: 0 0 8px #2a9ceee3;
             backdrop-filter: blur(10px);
         }
         
@@ -61,20 +61,19 @@
         }
         
         header nav a.active {
-            color: rgba(120, 76, 201, 0.6);
+            color: #2a9cee;
             width: 150px;
             transition: 0.5s;
-            
-            text-shadow: 0 0 10px rgba(120, 76, 201, 0.6);
+            text-shadow: 0 0 10px #2a9ceee1;
         
         }
         
         header nav a:hover {
             transition: 0.5s;
-            color: rgba(120, 76, 201, 0.6);
+            color: #2a9ceee8;
             width: 150px;
             transform: translateX(14px);
-            text-shadow: 0 0 10px rgba(120, 76, 201, 0.6);
+            text-shadow: 0 0 10px #2a9ceeeb;
         }
 
         /* Main Section Styling */
@@ -88,7 +87,7 @@
         main h1 {
             font-size: 35px;
             margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(120, 76, 201, 0.914);
+            text-shadow: 0 0 20px #2a9ceeeb;
         }
 
         video {
@@ -126,7 +125,7 @@
     position: fixed;
     top: 20px;
     left: 10%;
-    background: rgba(120, 76, 201, 0.8);
+    background: #2a9ceedf;
     border: none;
     color: white;
     padding: 10px 15px;
@@ -138,8 +137,8 @@
 }
 .menu-toggle:hover {
     background: transparent;
-    border: 2px solid rgba(120, 76, 201, 0.8);
-    color: rgba(120, 76, 201, 0.8);
+    border: 2px solid #2a9cee;
+    color: #2a9cee;
     transition: 0.5s;
 }
 
@@ -159,8 +158,137 @@
 
 body.collapsed .menu-toggle {
     background: transparent; 
+    border: 2px solid #2a9ceeeb;
+    color: #2a9cee;
+    box-shadow: 0 0 10px #2a9ceee5;
+    transition: 0.5s;
+}
+
+
+.download-btn {
+    display: inline-block;
+    position: relative;
+    right: 45%;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: #2a9ceeeb;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.download-btn:hover {
+    box-shadow: 0 0 7px #2a9ceee5;
+    transform: scale(1.1);
+}
+
+/* Monarch Domain Button */
+#monarch-domain {
+    position: fixed;
+    top: 45px;
+    right: 5%;
+    padding: 10px 15px;
+    font-size: 1em;
+    background: #2a9cee;
+    box-shadow: 0 0 20px #329eec, 
+    0 0 40px #329eec ;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+#monarch-domain:hover {
+    background: rgb(120, 76, 201);
+    box-shadow: 0 0 20px rgb(120, 76, 201), 
+    0 0 40px rgb(110, 63, 198) ;
+    color: white;
+}
+
+/* Dark Mode Styling */
+.dark-mode {
+    background: url("purple.jpeg") ;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    /* background-size: cover; */
+    background-size: 100% 100%;
+    cursor: url('dagger.cur'), auto;
+    transition: background 0.6s ease-in-out;
+}
+
+/* Dark Mode Button */
+.dark-mode #monarch-domain {
+    background: rgb(120, 76, 201);
+    color: white;
+    box-shadow: 0 0 20px rgb(120, 76, 201), 
+    0 0 40px rgb(110, 63, 198) ;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+.dark-mode #monarch-domain:hover {
+    background: #2a9cee;
+    box-shadow: 0 0 20px #329eec, 
+    0 0 40px #329eec ;
+    color: white;
+}
+
+/* Dark Mode Header */
+.dark-mode header nav a.active{
+    color: rgba(120, 76, 201, 0.6);
+    text-shadow: 0 0 10px rgba(120, 76, 201, 0.747);
+}
+
+
+.dark-mode header nav a:hover {
+    color: rgba(120, 76, 201, 0.6);
+    text-shadow: 0 0 10px rgba(120, 76, 201, 0.77);
+}
+
+.dark-mode .menu-toggle {
+   
+    background: rgba(120, 76, 201, 0.8);
+    border: none;
+    color: white;
+    transition: background 0.5s ease, color 0.5s ease;
+   
+}
+
+.dark-mode .menu-toggle:hover {
+    background: transparent;
     border: 2px solid rgba(120, 76, 201, 0.8);
     color: rgba(120, 76, 201, 0.8);
-    box-shadow: 0 0 10px rgba(120, 76, 201, 0.6);
     transition: 0.5s;
+}
+
+/* Dark Mode Hamburger Active State */
+.dark-mode body.collapsed .menu-toggle {
+    background: rgb(255, 50, 50); /* Red color when collapsed in dark mode */
+    color: white;
+    box-shadow: 0 0 10px rgb(255, 50, 50);
+}
+
+/* Dark Mode h1 Text Shadow */
+.dark-mode main h1 {
+    text-shadow: 0 0 30px rgb(120, 76, 201);
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Dark Mode Navigation Box Shadow */
+.dark-mode header {
+    box-shadow: 0 0 8px rgba(120, 76, 201, 0.879);
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+.dark-mode .download-btn{
+    background: rgba(120, 76, 201, 0.8);
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+.dark-mode .download-btn:hover{
+    box-shadow: 0 0 20px rgb(120, 76, 201);
+    transition: 0.5s;
+
 }
